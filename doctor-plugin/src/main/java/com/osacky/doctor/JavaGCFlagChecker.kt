@@ -18,11 +18,16 @@ class JavaGCFlagChecker(
             return
         }
         if (getJavaVersion() > 9) {
+            println(ManagementFactory.getRuntimeMXBean().inputArguments)
             if (!ManagementFactory.getRuntimeMXBean().inputArguments.contains(parallelGCFlag)) {
-                throw GradleException(pillBoxPrinter.createPill("""
+                throw GradleException(
+                    pillBoxPrinter.createPill(
+                        """
                    For faster builds, use the parallel GC.
                    Add $parallelGCFlag to the org.gradle.jvmargs
-                """.trimIndent()))
+                        """.trimIndent()
+                    )
+                )
             }
         }
     }

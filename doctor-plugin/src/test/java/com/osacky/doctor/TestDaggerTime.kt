@@ -22,7 +22,7 @@ class TestDaggerTime {
                       disallowMultipleDaemons = false
                       javaHome {
                         daggerThreshold = 100
-                        ensureJavaHomeMatches = !System.getenv().containsKey("CI")
+                        ensureJavaHomeMatches = false
                       }
                     }
             """.trimIndent()

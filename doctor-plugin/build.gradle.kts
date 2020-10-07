@@ -131,21 +131,26 @@ signing {
 }
 
 tasks.withType(Test::class.java).configureEach {
-    jvmArgs("-XX:+HeapDumpOnOutOfMemoryError")
+//    jvmArgs("-XX:+HeapDumpOnOutOfMemoryError")
+    jvmArgs("-XX:+UseParallelGC")
     maxHeapSize = "1G"
     testLogging {
         events = setOf(TestLogEvent.SKIPPED, TestLogEvent.FAILED, TestLogEvent.PASSED)
     }
 }
 
-tasks.withType<JavaCompile>().configureEach {
-    javaCompiler.set(javaToolchains.compilerFor {
+val java8Int = tasks.register<Test>("java8IntegrationTest") {
+    group = "verification"
+    javaLauncher.set(javaToolchains.launcherFor {
         languageVersion.set(JavaLanguageVersion.of(8))
     })
 }
 
-tasks.withType<Test>().configureEach {
+tasks.check.configure { dependsOn(java8Int)}
+
+tasks.test.configure {
+    jvmArgs("-XX:+UseParallelGC")
     javaLauncher.set(javaToolchains.launcherFor {
-        languageVersion.set(JavaLanguageVersion.of(8))
+        languageVersion.set(JavaLanguageVersion.of(11))
     })
 }

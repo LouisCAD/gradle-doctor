@@ -40,6 +40,7 @@ buildScan {
   termsOfServiceUrl = "https://gradle.com/terms-of-service"
   termsOfServiceAgree = "yes"
   publishAlways()
+    server = "https://e.grdev.net"
 }
 
 tasks.register("pluginTasks").configure {
