@@ -1,5 +1,6 @@
 import com.osacky.doctor.DoctorExtension
 import org.gradle.api.tasks.testing.logging.TestLogEvent
+import java.lang.management.ManagementFactory
 
 allprojects {
   repositories {
@@ -71,5 +72,10 @@ tasks.register("publishToMavenCentral").configure {
 
 tasks.register("publishToMavenLocal").configure {
   dependsOn(gradle.includedBuild("doctor-plugin").task(":publishToMavenLocal"))
+}
+
+val jvmArgs = ManagementFactory.getRuntimeMXBean().inputArguments
+jvmArgs.forEach {
+    println(it)
 }
 
